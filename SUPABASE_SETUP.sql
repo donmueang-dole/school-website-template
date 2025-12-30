@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS public.news (
 );
 
 COMMENT ON TABLE public.news IS 'ตารางเก็บข่าวสารและประชาสัมพันธ์';
-COMMENT ON COLUMN public.news.category IS 'หมวดหมู่ข่าว เช่น ข่าวประชาสัมพันธ์, กิจกรรม, ผลงานนักเรียน, ประกาศ';
+COMMENT ON COLUMN public.news.category IS 'หมวดหมู่ข่าว เช่น ข่าวประชาสัมพันธ์, กิจกรรม, ผลงานนักศึกษา, ประกาศ';
 COMMENT ON COLUMN public.news.is_pinned IS 'ปักหมุดข่าวให้แสดงด้านบน';
 COMMENT ON COLUMN public.news.sort_order IS 'ลำดับการแสดงผล (เริ่มจาก 0)';
 COMMENT ON COLUMN public.news.external_links IS 'ลิงก์ภายนอกที่เกี่ยวข้อง (JSON array)';
@@ -215,18 +215,18 @@ CREATE INDEX IF NOT EXISTS idx_gallery_photos_sort_order ON public.gallery_photo
 
 -- Insert default news categories
 INSERT INTO public.news_categories (name, description, color) VALUES
-  ('ข่าวประชาสัมพันธ์', 'ข่าวสารทั่วไปของโรงเรียน', 'blue'),
-  ('กิจกรรม', 'กิจกรรมต่างๆ ภายในโรงเรียน', 'green'),
-  ('ผลงานนักเรียน', 'ผลงานและความสำเร็จของนักเรียน', 'purple'),
-  ('ประกาศ', 'ประกาศสำคัญจากทางโรงเรียน', 'red')
+  ('ข่าวประชาสัมพันธ์', 'ข่าวสารทั่วไปของสถานศึกษา', 'blue'),
+  ('กิจกรรม', 'กิจกรรมต่างๆ ภายในสถานศึกษา', 'green'),
+  ('ผลงานนักศึกษา', 'ผลงานและความสำเร็จของนักศึกษา', 'purple'),
+  ('ประกาศ', 'ประกาศสำคัญจากทางสถานศึกษา', 'red')
 ON CONFLICT (name) DO NOTHING;
 
 -- Insert sample news (optional - can be removed if you want clean installation)
 INSERT INTO public.news (title, content, excerpt, category, published, published_at, sort_order) VALUES
   (
-    'ยินดีต้อนรับสู่เว็บไซต์โรงเรียน',
-    '<p>ยินดีต้อนรับสู่เว็บไซต์โรงเรียนรูปแบบใหม่ พร้อมระบบจัดการที่ทันสมัย</p>',
-    'ยินดีต้อนรับสู่เว็บไซต์โรงเรียนรูปแบบใหม่',
+    'ยินดีต้อนรับสู่เว็บไซต์สถานศึกษา',
+    '<p>ยินดีต้อนรับสู่เว็บไซต์สถานศึกษารูปแบบใหม่ พร้อมระบบจัดการที่ทันสมัย</p>',
+    'ยินดีต้อนรับสู่เว็บไซต์สถานศึกษารูปแบบใหม่',
     'ข่าวประชาสัมพันธ์',
     true,
     now(),
@@ -260,12 +260,12 @@ CREATE TABLE IF NOT EXISTS public.events (
 );
 
 -- Add comments
-COMMENT ON TABLE public.events IS 'ตารางเก็บข้อมูลกิจกรรมและปฏิทินโรงเรียน';
+COMMENT ON TABLE public.events IS 'ตารางเก็บข้อมูลกิจกรรมและปฏิทินสถานศึกษา';
 COMMENT ON COLUMN public.events.category IS 'หมวดหมู่ เช่น academic, sports, cultural, general';
 COMMENT ON COLUMN public.events.status IS 'สถานะการแสดงผล: draft, published, archived';
 
 -- =============================================
--- 2. SCHOOL_SETTINGS TABLE - ตารางตั้งค่าโรงเรียน
+-- 2. SCHOOL_SETTINGS TABLE - ตารางตั้งค่าสถานศึกษา
 -- =============================================
 CREATE TABLE IF NOT EXISTS public.school_settings (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -278,7 +278,7 @@ CREATE TABLE IF NOT EXISTS public.school_settings (
 );
 
 -- Add comments
-COMMENT ON TABLE public.school_settings IS 'ตารางเก็บการตั้งค่าต่างๆ ของโรงเรียน';
+COMMENT ON TABLE public.school_settings IS 'ตารางเก็บการตั้งค่าต่างๆ ของสถานศึกษา';
 COMMENT ON COLUMN public.school_settings.key IS 'คีย์การตั้งค่า เช่น school_name, phone, email';
 COMMENT ON COLUMN public.school_settings.category IS 'หมวดหมู่ เช่น general, contact, social_media, branding';
 
@@ -393,8 +393,8 @@ CREATE INDEX IF NOT EXISTS idx_school_settings_category ON public.school_setting
 
 -- Insert default school settings
 INSERT INTO public.school_settings (key, value, category, description) VALUES
-  ('school_name', 'โรงเรียนตัวอย่าง', 'general', 'ชื่อโรงเรียน'),
-  ('school_motto', 'เรียนดี มีความสุข พัฒนาตน', 'general', 'คำขวัญโรงเรียน'),
+  ('school_name', 'สถานศึกษาตัวอย่าง', 'general', 'ชื่อสถานศึกษา'),
+  ('school_motto', 'เรียนดี มีความสุข พัฒนาตน', 'general', 'คำขวัญสถานศึกษา'),
   ('school_phone', '02-xxx-xxxx', 'contact', 'เบอร์โทรศัพท์'),
   ('school_email', 'info@school.ac.th', 'contact', 'อีเมล'),
   ('school_address', '123 ถนนตัวอย่าง เขต... กรุงเทพฯ 10xxx', 'contact', 'ที่อยู่'),
@@ -407,7 +407,7 @@ ON CONFLICT (key) DO NOTHING;
 INSERT INTO public.events (title, description, event_date, event_time, location, category, status) VALUES
   (
     'วันเปิดเทอม ภาคเรียนที่ 1/2568',
-    'พิธีเปิดภาคเรียนใหม่ ให้นักเรียนทุกคนมาพร้อมกัน',
+    'พิธีเปิดภาคเรียนใหม่ ให้นักศึกษาทุกคนมาพร้อมกัน',
     CURRENT_DATE + INTERVAL '7 days',
     '08:00:00',
     'โรงยิมนาเซียม',
@@ -416,19 +416,19 @@ INSERT INTO public.events (title, description, event_date, event_time, location,
   ),
   (
     'กีฬาสีประจำปี 2568',
-    'การแข่งขันกีฬาภายในโรงเรียน เพื่อส่งเสริมความสามัคคี',
+    'การแข่งขันกีฬาภายในสถานศึกษา เพื่อส่งเสริมความสามัคคี',
     CURRENT_DATE + INTERVAL '30 days',
     '09:00:00',
-    'สนามกีฬาโรงเรียน',
+    'สนามกีฬาสถานศึกษา',
     'sports',
     'published'
   ),
   (
-    'งานวันสถาปนาโรงเรียน',
-    'ร่วมฉลองครบรอบวันสถาปนาโรงเรียน พร้อมกิจกรรมมากมาย',
+    'งานวันสถาปนาสถานศึกษา',
+    'ร่วมฉลองครบรอบวันสถาปนาสถานศึกษา พร้อมกิจกรรมมากมาย',
     CURRENT_DATE + INTERVAL '60 days',
     '10:00:00',
-    'หอประชุมโรงเรียน',
+    'หอประชุมสถานศึกษา',
     'cultural',
     'published'
   );
@@ -463,10 +463,10 @@ WITH CHECK (true);
 
 -- Insert default data
 INSERT INTO administrators (name, position, education, quote, order_position) VALUES
-('ดร.สมศักดิ์ วิทยาการ', 'ผู้อำนวยการโรงเรียน', 'ปริญญาเอก บริหารการศึกษา', 'การศึกษาคือกุญแจสู่อนาคตที่สดใส', 1),
+('ดร.สมศักดิ์ วิทยาการ', 'ผู้อำนวยการสถานศึกษา', 'ปริญญาเอก บริหารการศึกษา', 'การศึกษาคือกุญแจสู่อนาคตที่สดใส', 1),
 ('นางสาวประภา สุขสวัสดิ์', 'รองผู้อำนวยการฝ่ายวิชาการ', 'ปริญญาโท หลักสูตรและการสอน', 'มุ่งมั่นพัฒนาคุณภาพการเรียนการสอน', 2),
 ('นายวิชัย บุญมี', 'รองผู้อำนวยการฝ่ายบริหาร', 'ปริญญาโท บริหารธุรกิจ', 'บริหารด้วยความโปร่งใสและมีประสิทธิภาพ', 3),
-('นางรัชนี แสงทอง', 'รองผู้อำนวยการฝ่ายกิจการนักเรียน', 'ปริญญาโท จิตวิทยาการศึกษา', 'ดูแลนักเรียนด้วยหัวใจ', 4);
+('นางรัชนี แสงทอง', 'รองผู้อำนวยการฝ่ายกิจการนักศึกษา', 'ปริญญาโท จิตวิทยาการศึกษา', 'ดูแลนักศึกษาด้วยหัวใจ', 4);
 -- Drop existing table (CASCADE will drop policies automatically)
 DROP TABLE IF EXISTS staff CASCADE;
 
@@ -558,9 +558,9 @@ WITH CHECK (true);
 
 -- Insert default achievements
 INSERT INTO student_achievements (title, description, year, category, order_position) VALUES
-('เหรียญทองโอลิมปิกวิชาการ', 'นักเรียนได้รับเหรียญทองการแข่งขันคณิตศาสตร์โอลิมปิกระดับชาติ', '2567', 'โอลิมปิก', 1),
+('เหรียญทองโอลิมปิกวิชาการ', 'นักศึกษาได้รับเหรียญทองการแข่งขันคณิตศาสตร์โอลิมปิกระดับชาติ', '2567', 'โอลิมปิก', 1),
 ('รางวัลชนะเลิศวิทยาศาสตร์', 'โครงงานวิทยาศาสตร์ได้รับรางวัลชนะเลิศระดับภาค', '2567', 'วิทยาศาสตร์', 2),
-('ทุนการศึกษาต่อต่างประเทศ', 'นักเรียนได้รับทุนเรียนต่อมหาวิทยาลัยชั้นนำในต่างประเทศ', '2567', 'ทุนการศึกษา', 3),
+('ทุนการศึกษาต่อต่างประเทศ', 'นักศึกษาได้รับทุนเรียนต่อมหาวิทยาลัยชั้นนำในต่างประเทศ', '2567', 'ทุนการศึกษา', 3),
 ('ผลสอบ O-NET สูงกว่าค่าเฉลี่ย', 'ผลสอบ O-NET ทุกวิชาสูงกว่าค่าเฉลี่ยระดับประเทศ', '2566', 'วิชาการ', 4);
 
 -- Insert default activities
@@ -594,10 +594,10 @@ USING (true)
 WITH CHECK (true);
 
 INSERT INTO student_stats (label, value, icon, color, order_position) VALUES
-('นักเรียนทั้งหมด', '1,250', 'Users', 'text-primary', 1),
+('นักศึกษาทั้งหมด', '1,250', 'Users', 'text-primary', 1),
 ('ม.ปลาย', '650', 'GraduationCap', 'text-accent', 2),
 ('ม.ต้น', '600', 'BookOpen', 'text-green-500', 3),
-('นักเรียนเกียรตินิยม', '180', 'Trophy', 'text-purple-500', 4);
+('นักศึกษาเกียรตินิยม', '180', 'Trophy', 'text-purple-500', 4);
 
 -- Create grade_data table for student counts per grade level
 DROP TABLE IF EXISTS grade_data CASCADE;
@@ -652,9 +652,9 @@ USING (true)
 WITH CHECK (true);
 
 INSERT INTO student_council (name, position, class, initial, order_position) VALUES
-('นายประสิทธิ์ เก่งมาก', 'ประธานสภานักเรียน', 'ม.6/1', 'ป', 1),
-('นางสาวสุดา รักเรียน', 'รองประธานสภานักเรียน', 'ม.6/2', 'ส', 2),
-('นายวิชัย ใจดี', 'เลขานุการสภานักเรียน', 'ม.5/1', 'ว', 3);
+('นายประสิทธิ์ เก่งมาก', 'ประธานสภานักศึกษา', 'ม.6/1', 'ป', 1),
+('นางสาวสุดา รักเรียน', 'รองประธานสภานักศึกษา', 'ม.6/2', 'ส', 2),
+('นายวิชัย ใจดี', 'เลขานุการสภานักศึกษา', 'ม.5/1', 'ว', 3);
 -- Drop existing table (CASCADE will drop policies automatically)
 DROP TABLE IF EXISTS admissions CASCADE;
 
@@ -780,8 +780,8 @@ CREATE POLICY "Allow full access for faq"
 -- Insert default FAQ items
 INSERT INTO faq (question, answer, order_position) VALUES
 ('ค่าธรรมเนียมการศึกษาเท่าไหร่?', 'ค่าธรรมเนียมการศึกษาต่อภาคเรียน ม.ต้น 15,000 บาท และ ม.ปลาย 18,000 บาท รวมค่าอุปกรณ์การเรียน', 1),
-('มีรถรับส่งนักเรียนหรือไม่?', 'มีบริการรถรับส่งนักเรียน ครอบคลุมพื้นที่กรุงเทพฯ และปริมณฑล สอบถามเส้นทางได้ที่ฝ่ายธุรการ', 2),
-('เปิดรับสมัครนักเรียนใหม่เมื่อไหร่?', 'เปิดรับสมัครนักเรียนใหม่ทุกปี ช่วงเดือนกุมภาพันธ์ - มีนาคม สำหรับปีการศึกษาถัดไป', 3);
+('มีรถรับส่งนักศึกษาหรือไม่?', 'มีบริการรถรับส่งนักศึกษา ครอบคลุมพื้นที่กรุงเทพฯ และปริมณฑล สอบถามเส้นทางได้ที่ฝ่ายธุรการ', 2),
+('เปิดรับสมัครนักศึกษาใหม่เมื่อไหร่?', 'เปิดรับสมัครนักศึกษาใหม่ทุกปี ช่วงเดือนกุมภาพันธ์ - มีนาคม สำหรับปีการศึกษาถัดไป', 3);
 
 -- Create milestones table for school history timeline
 DROP TABLE IF EXISTS milestones CASCADE;
@@ -805,9 +805,9 @@ CREATE POLICY "Allow full access for milestones"
     WITH CHECK (true);
 
 INSERT INTO milestones (year, event, order_position) VALUES
-('2517', 'ก่อตั้งโรงเรียนห้องสื่อครูคอมวิทยาคม', 1),
+('2517', 'ก่อตั้งสถานศึกษาห้องสื่อครูคอมวิทยาคม', 1),
 ('2530', 'เปิดหลักสูตรวิทยาศาสตร์-คณิตศาสตร์', 2),
-('2545', 'ได้รับรางวัลโรงเรียนพระราชทาน', 3),
+('2545', 'ได้รับรางวัลสถานศึกษาพระราชทาน', 3),
 ('2555', 'เปิดหลักสูตรภาษาต่างประเทศ', 4),
 ('2565', 'เปิดหลักสูตรเทคโนโลยีและ AI', 5);
 
